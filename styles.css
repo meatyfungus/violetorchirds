@@ -1,0 +1,122 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  scroll-behavior: smooth;
+  background: linear-gradient(to bottom, #d4ecff, #ffffff); /* Cloud-like */
+  color: #333;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffffd9;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #9a5cb4;
+}
+
+.admission-btn {
+  background-color: #ffb6c1;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+/* Sections */
+section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+/* Hero Section */
+.hero {
+  height: 90vh;
+  background: url('https://www.transparenttextures.com/patterns/cloudy-day.png'), linear-gradient(to bottom, #b5dfff, #e6f4ff);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #2d2d2d;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+}
+
+.hero-buttons button {
+  margin: 1rem;
+  padding: 1rem 2rem;
+  background-color: #9a5cb4;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Programmes Section */
+.programmes ul {
+  list-style-type: none;
+  padding: 1rem;
+}
+
+.programmes li {
+  padding: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* Gallery */
+.gallery-grid {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.placeholder-img {
+  width: 150px;
+  height: 100px;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+/* Reviews */
+.reviews blockquote {
+  margin: 1rem auto;
+  max-width: 500px;
+  font-style: italic;
+  background: #f0f0ff;
+  padding: 1rem;
+  border-left: 4px solid #9a5cb4;
+}
+
+/* Footer */
+footer {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #777;
+}
