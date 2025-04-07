@@ -7,10 +7,431 @@
   <title>Violets' Orchids Preschool</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
- <!-- SwiperJS for Carousel 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
-<script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Add animate.css for animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Add GSAP for more advanced animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+
+<style>
+    :root {
+      --primary-color: rgba(255, 231, 244, 0.15);
+      --accent-color: rgba(246, 182, 195, 0.15);
+      --background-color: rgba(255, 231, 244, 0.15);
+      --highlight-color: rgba(216, 193, 220, 0.15);
+      --text-color: #400027;
+      --white-soft: rgba(250, 250, 250, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating shapes animation */
+    .floating-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      opacity: 0.3;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .shape:nth-child(1) {
+      width: 100px;
+      height: 100px;
+      background-color: #F6B6C3;
+      border-radius: 50%;
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .shape:nth-child(2) {
+      width: 80px;
+      height: 80px;
+      background-color: #D8C1DC;
+      border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+      top: 60%;
+      left: 80%;
+      animation-delay: 2s;
+    }
+
+    .shape:nth-child(3) {
+      width: 120px;
+      height: 120px;
+      background-color: #ffe7f4;
+      border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+      top: 30%;
+      left: 50%;
+      animation-delay: 4s;
+    }
+
+    .shape:nth-child(4) {
+      width: 60px;
+      height: 60px;
+      background-color: #400027;
+      border-radius: 50%;
+      top: 80%;
+      left: 20%;
+      animation-delay: 6s;
+    }
+
+    .shape:nth-child(5) {
+      width: 90px;
+      height: 90px;
+      background-color: #F6B6C3;
+      border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+      top: 70%;
+      left: 60%;
+      animation-delay: 8s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-50px) rotate(10deg);
+      }
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+
+    /* Bouncing animation for cards */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* Pulse animation for CTA */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Rotating animation for flowers */
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background-color: rgba(255, 231, 244, 0.15);
+    }
+
+    header img {
+      height: 60px;
+      transition: transform 0.3s ease;
+    }
+
+    header img:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    .right-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    #mobileMenu a {
+      margin-left: 10px;
+    }
+
+    nav#mobileMenu {
+      display: flex;
+      gap: 10px;
+    }
+
+    .enquiry-btn {
+      background-color: #400027;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+
+    .enquiry-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(64, 0, 39, 0.3);
+    }
+
+    .menu-toggle {
+      background-color: #400027;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle:hover {
+      transform: rotate(10deg);
+    }
+
+    nav {
+      position: fixed;
+      top: 60px;
+      right: 0;
+      background: rgba(250, 250, 250, 0.15);
+      border-left: 1px solid var(--highlight-color);
+      box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.1);
+      display: none;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+      backdrop-filter: blur(5px);
+    }
+
+    nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      transform: translateX(5px);
+      color: #5a003a;
+    }
+
+    .show-menu {
+      display: flex;
+    }
+    
+    section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: auto;
+  position: relative;
+  background-color: rgba(255, 231, 244, 0.05); /* #ffe7f4 with 15% opacity */
+    }
+
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    h2:hover {
+      text-shadow: 2px 2px 4px rgba(246, 182, 195, 0.5);
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: var(--text-color);
+    }
+
+    .hero {
+      text-align: center;
+      background-color: rgba(216, 193, 220, 0.15);
+      padding: 5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+      animation: fadeInDown 1s ease;
+    }
+
+    .cta-buttons button {
+      margin: 0.5rem;
+    }
+
+    footer {
+      background-color: rgba(255, 231, 244, 0.15);
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: var(--text-color);
+      position: relative;
+    }
+
+    .footer-menu {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .footer-menu a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .footer-menu a:hover {
+      transform: scale(1.1);
+      color: #5a003a;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: inline-block;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    }
+    
+    .menu-toggle {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .slide-toggle {
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      overflow: hidden;
+      max-height: 0;
+      padding: 0 1rem;
+    }
+
+    .slide-open {
+      max-height: 500px;
+      padding: 1rem;
+    }
+
+    /* Card hover animations */
+    .program-card, .testimonial-card, .facility-card {
+      transition: all 0.3s ease;
+    }
+
+    .program-card:hover, .testimonial-card:hover, .facility-card:hover {
+      transform: translateY(-10px) rotate(1deg);
+      box-shadow: 0 15px 30px rgba(64, 0, 39, 0.1);
+      animation: bounce 0.5s ease;
+    }
+
+    /* Gallery image hover effect */
+    .gallery-img {
+      transition: all 0.5s ease;
+      transform-origin: center;
+    }
+
+    .gallery-img:hover {
+      transform: scale(1.03) rotate(1deg);
+    }
+
+    /* Floating flowers decoration */
+    .floating-flower {
+      position: absolute;
+      opacity: 0.2;
+      z-index: -1;
+      animation: float 10s infinite ease-in-out, rotate 20s infinite linear;
+    }
+
+    /* Scroll-triggered animations */
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(20px);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Confetti animation 
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #F6B6C3;
+      opacity: 0.7;
+      animation: confetti-fall 5s linear infinite;
+    }
+    */
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+  
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  background-color: var(--primary-color);
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+</style>
 
 <script>
   function toggleMenu() {
@@ -31,197 +452,6 @@
   document.querySelector('.enquiry-btn').addEventListener('click', openModal);
 </script>
 
-<style>
-    :root {
-      --primary-color: #ffe7f4;
-      --accent-color: #F6B6C3;
-      --background-color: #ffe7f4;
-      --highlight-color: #D8C1DC;
-      --text-color: #400027;
-      --white-soft: #FAFAFA;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      line-height: 1.6;
-    }
-
-    header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-  }
-
-  header img {
-    height: 60px;
-  }
-
-  .right-section {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-
-  #mobileMenu a {
-    margin-left: 10px;
-  }
-
-  nav#mobileMenu {
-    display: flex;
-    gap: 10px;
-  }
-
-    header img {
-      height: 60px;
-    }
-
-    .enquiry-btn {
-      background-color: #400027;
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-    }
-
-    .menu-toggle {
-      background-color: #400027;
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-    }
-
-    nav {
-      position: fixed;
-      top: 60px;
-      right: 0;
-      background: var(--white-soft);
-      border-left: 1px solid var(--highlight-color);
-      box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.1);
-      display: none;
-      flex-direction: column;
-      padding: 1rem;
-      gap: 1rem;
-    }
-
-    nav a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .show-menu {
-      display: flex;
-    }
-
-    section {
-      padding: 4rem 2rem;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: var(--text-color);
-    }
-
-    p {
-      font-size: 1.1rem;
-      color: var(--text-color);
-    }
-
-    .hero {
-      text-align: center;
-      background-color: var(--highlight-color);
-      padding: 5rem 2rem;
-    }
-
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      color: var(--text-color);
-      margin-bottom: 1rem;
-    }
-
-    .cta-buttons button {
-      margin: 0.5rem;
-    }
-
-    footer {
-      background-color: var(--primary-color);
-      padding: 2rem;
-      font-size: 0.9rem;
-      color: var(--text-color);
-    }
-
-    .footer-menu {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 1rem;
-    }
-
-    .footer-menu a {
-      text-decoration: none;
-      color: var(--text-color);
-    }
-
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: inline-block;
-        font-size: 1.5rem;
-        background: none;
-        border: none;
-        cursor: pointer;
-      }
-    }
-    .menu-toggle {
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.slide-toggle {
-  transition: max-height 0.4s ease, padding 0.3s ease;
-  overflow: hidden;
-  max-height: 0;
-  padding: 0 1rem;
-}
-
-.slide-open {
-  max-height: 500px; /* enough to show the menu */
-  padding: 1rem;
-}
-
-  </style>
-
-<script>
-  function toggleMenu() {
-    const menu = document.getElementById("mobileMenu");
-    menu.classList.toggle("show-menu");
-  }
-</script>
-
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const menuToggle = document.getElementById('menuToggle');
@@ -233,26 +463,109 @@
       mobileMenu.classList.toggle('hidden');
       menuToggle.textContent = isOpen ? '☰' : '✖';
     });
+
+    // Create floating shapes
+    const floatingShapes = document.createElement('div');
+    floatingShapes.className = 'floating-shapes';
+    
+    for (let i = 0; i < 5; i++) {
+      const shape = document.createElement('div');
+      shape.className = 'shape';
+      floatingShapes.appendChild(shape);
+    }
+    
+    document.body.appendChild(floatingShapes);
+
+    // Create floating flowers
+    const flowers = ['🌸', '🌺', '🌼', '🏵️', '🌹', '🌻'];
+    for (let i = 0; i < 8; i++) {
+      const flower = document.createElement('div');
+      flower.className = 'floating-flower';
+      flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+      flower.style.fontSize = `${Math.random() * 20 + 10}px`;
+      flower.style.left = `${Math.random() * 100}%`;
+      flower.style.top = `${Math.random() * 100}%`;
+      flower.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(flower);
+    }
+
+    // Create confetti
+    for (let i = 0; i < 30; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = `${Math.random() * 100}%`;
+      confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      confetti.style.animationDelay = `${Math.random() * 5}s`;
+      confetti.style.backgroundColor = ['#F6B6C3', '#D8C1DC', '#400027', '#ffe7f4'][Math.floor(Math.random() * 4)];
+      confetti.style.width = `${Math.random() * 10 + 5}px`;
+      confetti.style.height = `${Math.random() * 10 + 5}px`;
+      confetti.style.borderRadius = `${Math.random() > 0.5 ? '50%' : '0'}`;
+      document.body.appendChild(confetti);
+    }
+
+    // Scroll-triggered animations
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    fadeElements.forEach(el => observer.observe(el));
+
+    // GSAP animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray('section').forEach(section => {
+      gsap.from(section, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8
+      });
+    });
+
+    // Bounce animation for cards on hover
+    const cards = document.querySelectorAll('.program-card, .testimonial-card, .facility-card');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, {
+          y: -10,
+          duration: 0.3,
+          ease: "power1.out"
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+          y: 0,
+          duration: 0.3,
+          ease: "power1.out"
+        });
+      });
+    });
   });
 </script>
 
-
-
-
 </head>
 
-
-
 <body>
+  <!-- Floating background elements -->
+  <div class="floating-shapes"></div>
+  
   <header>
-    <img src="05.jpeg">
+    <img src="C:\Users\esthe\OneDrive\Desktop\Files\Skill\STRATEGYM_INTERNSHIP\VO_W\violet-orchids\05.jpg">
     
     <div class="right-section">
       <a href="https://docs.google.com/forms/d/e/1FAIpQLScsElrZPlCAl966w6df7Cufj1A9N1cOP0r419t50KQuoV6s8Q/viewform?usp=header" target="_blank" class="enquiry-btn">Admission Enquiry</a>
       <button id="menuToggle" class="menu-toggle bg-pink-300 text-white px-4 py-2 rounded-lg">☰</button>
 
-      
- 
 <nav id="mobileMenu" class="slide-toggle absolute top-[70px] right-4 bg-white rounded-md shadow-md z-50 w-64 flex-col gap-2 hidden md:hidden">
   <a href="#hero">Home</a>
   <a href="#why-choose">Why choose Violet Orchids?</a>
@@ -264,39 +577,30 @@
 </nav>
 
     </div>
-  </header>
+  </header><main>
   
-<!--
-  <section class="hero" id="hero">
-    <h1>Welcome to Violets' Orchids Preschool</h1>
-    <p>Where your child's first steps into learning begin with joy, wonder, and care.</p>
-    <div class="cta-buttons">
-      <button class="enquiry-btn">Enroll Now</button>
-    </div>
-  </section>
--->
-<section id="hero" class="hero bg-[#ffedf7] text-[#400027]">
+  <section id="hero" class="hero bg-[#ffedf7]/15 text-[#400027]">
   <div class="max-w-5xl mx-auto px-6 text-center">
-    <h1 class="text-4xl lg:text-5xl font-playfair font-semibold mb-4 leading-tight">Welcome to Violets' Orchids Preschool</h1>
-    <p class="text-lg mb-6 font-medium">Where Little Minds Bloom Brightly</p>
-    <p class="text-base mb-8 font-normal">Inspiring curiosity, creativity, and confidence in every child.</p>
-    <a href="#programs" class="inline-block px-8 py-3 bg-[#400027] text-white rounded-2xl text-base hover:bg-[#5a003a] transition duration-300">
+    <h1 class="text-4xl lg:text-5xl font-playfair font-semibold mb-4 leading-tight animate__animated animate__fadeInDown">Welcome to Violets' Orchids Preschool</h1>
+    <p class="text-lg mb-6 font-medium animate__animated animate__fadeIn animate__delay-1s">Foundation for the future</p>
+    <p class="text-base mb-8 font-normal animate__animated animate__fadeIn animate__delay-1s">Inspiring Curiosity, Creativity, and Confidence in Every child.</p>
+    <a href="#programs" class="inline-block px-8 py-3 bg-[#400027] text-white rounded-2xl text-base hover:bg-[#5a003a] transition duration-300 animate__animated animate__pulse animate__infinite">
       Explore Our Programs
     </a>
   </div>
 </section>
 
-  <section id="why-choose" class="py-20 bg-[#ffe7f4] text-[#400027]">
+  <section id="why-choose" class="py-20 bg-[#ffedf7]/15 text-[#400027]">
     <div class="max-w-6xl mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-4">Why Choose Violets' Orchids Preschool?</h2>
-      <p class="text-lg mb-12">
-        Discover what makes our preschool a nurturing and joyful space for your child’s early learning journey.
+      <h2 class="text-4xl font-bold mb-4 fade-in">Why Choose Violets' Orchids Preschool?</h2>
+      <p class="text-lg mb-12 fade-in">
+        Discover what makes our preschool a nurturing and joyful space for your child's early learning journey.
       </p>
   
       <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8 text-left">
         
         <!-- Child-Centric Approach -->
-        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in">
           <h3 class="text-xl font-semibold mb-2">Child-Centric Approach</h3>
           <p class="text-sm">
             We prioritize the individual needs of each child, fostering a love for learning through personalized attention and a curriculum tailored to their developmental stage.
@@ -304,7 +608,7 @@
         </div>
   
         <!-- Experienced Leadership -->
-        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.2s">
           <h3 class="text-xl font-semibold mb-2">Experienced Leadership</h3>
           <p class="text-sm">
             Founded in July 2023, Violets' Orchids Educational Foundation is led by directors with a passion for early childhood education, ensuring a nurturing and enriching environment for all children.
@@ -312,7 +616,7 @@
         </div>
   
         <!-- Safe and Stimulating Environment -->
-        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.4s">
           <h3 class="text-xl font-semibold mb-2">Safe and Stimulating Environment</h3>
           <p class="text-sm">
             Our facilities are designed to be secure and engaging, providing a space where children can explore, learn, and grow with confidence.
@@ -324,17 +628,17 @@
   </section>
   
 
-  <section id="programs" class="py-20 bg-[#ffe7f4] text-[#400027]">
+  <section id="programs" class="py-20 bg-[#ffedf7]/15 text-[#400027]">
   <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-4">Our Programs</h2>
-    <p class="text-lg mb-12">
+    <h2 class="text-4xl font-bold mb-4 fade-in">Our Programs</h2>
+    <p class="text-lg mb-12 fade-in">
       At Violets' Orchids Preschool, we offer age-appropriate programs that nurture growth and learning at every stage.
     </p>
     
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       
       <!-- Playgroup -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in">
         <h3 class="text-xl font-semibold mb-2">Playgroup</h3>
         <p class="text-sm mb-2">Ages: 1.5 - 2.5 years</p>
         <p class="text-sm">
@@ -343,7 +647,7 @@
       </div>
 
       <!-- Nursery -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.1s">
         <h3 class="text-xl font-semibold mb-2">Nursery</h3>
         <p class="text-sm mb-2">Ages: 2.5 - 3.5 years</p>
         <p class="text-sm">
@@ -352,7 +656,7 @@
       </div>
 
       <!-- Junior -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.2s">
         <h3 class="text-xl font-semibold mb-2">Junior</h3>
         <p class="text-sm mb-2">Ages: 3.5 - 4.5 years</p>
         <p class="text-sm">
@@ -361,7 +665,7 @@
       </div>
 
       <!-- Senior -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.3s">
         <h3 class="text-xl font-semibold mb-2">Senior</h3>
         <p class="text-sm mb-2">Ages: 4.5 - 5.5 years</p>
         <p class="text-sm">
@@ -376,41 +680,41 @@
 
 <section id="gallery" class="py-20 bg-[#fff0f8] text-[#400027]">
   <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-4">Gallery</h2>
-    <p class="text-lg mb-12">See our colorful classrooms, play zones, and festive moments!</p>
+    <h2 class="text-4xl font-bold mb-4 fade-in">Gallery</h2>
+    <p class="text-lg mb-12 fade-in">See our colorful classrooms, play zones, and festive moments!</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Card Template -->
-      <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden fade-in">
         <div class="aspect-w-16 aspect-h-9">
-          <img src="01.jpg" alt="Classroom fun" class="object-cover w-full h-full" />
+          <img src="01.jpg" alt="Classroom fun" class="object-cover w-full h-full gallery-img" />
         </div>
         <div class="p-4">
           <p class="text-sm">Bright and engaging classrooms designed to inspire learning.</p>
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden fade-in" style="animation-delay: 0.1s">
         <div class="aspect-w-16 aspect-h-9">
-          <img src="02.jpg" alt="Creative activities" class="object-cover w-full h-full" />
+          <img src="02.jpg" alt="Creative activities" class="object-cover w-full h-full gallery-img" />
         </div>
         <div class="p-4">
           <p class="text-sm">Hands-on activities that spark creativity and imagination.</p>
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden fade-in" style="animation-delay: 0.2s">
         <div class="aspect-w-16 aspect-h-9">
-          <img src="03.jpg" alt="Festive celebrations" class="object-cover w-full h-full" />
+          <img src="03.jpg" alt="Festive celebrations" class="object-cover w-full h-full gallery-img" />
         </div>
         <div class="p-4">
           <p class="text-sm">Celebrations and cultural events that bring joy and learning together.</p>
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden fade-in" style="animation-delay: 0.3s">
         <div class="aspect-w-16 aspect-h-9">
-          <img src="04.jpg" alt="Teamwork in action" class="object-cover w-full h-full" />
+          <img src="04.jpg" alt="Teamwork in action" class="object-cover w-full h-full gallery-img" />
         </div>
         <div class="p-4">
           <p class="text-sm">Teamwork in action.</p>
@@ -421,17 +725,17 @@
 </section>
 
 
-<section id="curriculum" class="py-20 bg-[#ffe7f4] text-[#400027]">
+<section id="curriculum" class="py-20 bg-[#ffedf7]/15 text-[#400027]">
   <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-4">Our Curriculum</h2>
-    <p class="text-lg mb-12">
+    <h2 class="text-4xl font-bold mb-4 fade-in">Our Curriculum</h2>
+    <p class="text-lg mb-12 fade-in">
       At Violets' Orchids Preschool, we follow a comprehensive curriculum that emphasizes experiential learning, ensuring that children not only learn but also apply their knowledge in real-life situations. Our curriculum is designed to foster holistic development, preparing children for future academic challenges.
     </p>
     
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       
       <!-- Personal, Social, and Emotional Development -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in">
         <h3 class="text-xl font-semibold mb-2">Personal, Social, and Emotional Development</h3>
         <p class="text-sm">
           We focus on building confidence, independence, and social skills, helping children interact positively with peers and adults.
@@ -439,7 +743,7 @@
       </div>
 
       <!-- Communication, Language, and Literacy -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.1s">
         <h3 class="text-xl font-semibold mb-2">Communication, Language, and Literacy</h3>
         <p class="text-sm">
           Our programs enhance listening, speaking, reading, and writing abilities, laying the foundation for effective communication.
@@ -447,7 +751,7 @@
       </div>
 
       <!-- Mathematical Knowledge and Understanding -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.2s">
         <h3 class="text-xl font-semibold mb-2">Mathematical Knowledge and Understanding</h3>
         <p class="text-sm">
           Through hands-on activities, children develop a strong grasp of basic mathematical concepts, fostering logical thinking and problem-solving skills.
@@ -455,7 +759,7 @@
       </div>
 
       <!-- Creative Development -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.3s">
         <h3 class="text-xl font-semibold mb-2">Creative Development</h3>
         <p class="text-sm">
           We encourage creativity through art, music, and imaginative play, allowing children to express themselves and think innovatively.
@@ -463,7 +767,7 @@
       </div>
 
       <!-- Physical Development -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 program-card fade-in" style="animation-delay: 0.4s">
         <h3 class="text-xl font-semibold mb-2">Physical Development</h3>
         <p class="text-sm">
           Our curriculum includes activities that promote physical health, coordination, and motor skills, ensuring children develop a healthy lifestyle.
@@ -474,17 +778,15 @@
   </div>
 </section>
 
-
-
-<section id="purpose" class="py-20 bg-[#ffe7f4] text-[#400027]">
+<section id="purpose" class="py-20 bg-[#ffedf7]/15 text-[#400027]">
   <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-4">Our Purpose</h2>
-    <p class="text-lg mb-12">
+    <h2 class="text-4xl font-bold mb-4 fade-in">Our Purpose</h2>
+    <p class="text-lg mb-12 fade-in">
       Discover the heart of Violets' Orchids Preschool and what drives our nurturing environment.
     </p>
 
-    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 text-left">
-      <h3 class="text-2xl font-semibold mb-4">Nurturing Every Child’s Potential</h3>
+    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 text-left fade-in">
+      <h3 class="text-2xl font-semibold mb-4">Nurturing Every Child's Potential</h3>
       <p class="text-base">
         At Violets' Orchids Preschool, our mission is to provide a nurturing environment that supports the emotional, social, and intellectual development of each child. We aim to cultivate a love for learning, encourage exploration, and build a strong foundation for lifelong education.
       </p>
@@ -495,17 +797,17 @@
   </div>
 </section>
 
-<section id="facilities" class="py-20 bg-[#ffe7f4] text-[#400027]">
+<section id="facilities" class="py-20 bg-[#ffedf7]/15 text-[#400027]">
   <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-4">Our Facilities</h2>
-    <p class="text-lg mb-12">
+    <h2 class="text-4xl font-bold mb-4 fade-in">Our Facilities</h2>
+    <p class="text-lg mb-12 fade-in">
       Violets' Orchids Preschool is equipped with state-of-the-art facilities designed to provide a safe, stimulating, and nurturing environment for young learners.
     </p>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
       
       <!-- Bright and Spacious Classrooms -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 facility-card fade-in">
         <h3 class="text-xl font-semibold mb-2">Bright and Spacious Classrooms</h3>
         <p class="text-sm">
           Our classrooms are designed to be engaging and comfortable, fostering a love for learning.
@@ -513,7 +815,7 @@
       </div>
 
       <!-- Well-Equipped Play Areas -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 facility-card fade-in" style="animation-delay: 0.1s">
         <h3 class="text-xl font-semibold mb-2">Well-Equipped Play Areas</h3>
         <p class="text-sm">
           We have outdoor and indoor play areas that encourage physical activity, social interaction, and imaginative play.
@@ -521,7 +823,7 @@
       </div>
 
       <!-- Safety and Security Measures -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 facility-card fade-in" style="animation-delay: 0.2s">
         <h3 class="text-xl font-semibold mb-2">Safety and Security Measures</h3>
         <p class="text-sm">
           We prioritize the safety of our children with secure premises, CCTV surveillance, and trained staff to ensure a protected environment.
@@ -532,42 +834,42 @@
   </div>
 </section>
 
-<section id="team" class="py-20 bg-[#ffe7f4] text-[#400027]">
+<section id="team" class="py-20 bg-[#ffedf7]/15 text-[#400027]">
   <div class="max-w-4xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-4">Our Team</h2>
-    <p class="text-lg">
+    <h2 class="text-4xl font-bold mb-4 fade-in">Our Team</h2>
+    <p class="text-lg fade-in">
       Our team comprises qualified and passionate educators who are dedicated to the holistic development of each child. They employ a variety of teaching methodologies, including play-based and experiential learning, to cater to the diverse learning needs of our students.
     </p>
   </div>
 </section>
 
-<section id="parents" class="py-20 bg-[#ffe7f4] text-[#400027]">
+<section id="parents" class="py-20 bg-[#ffedf7]/15 text-[#400027]">
   <div class="max-w-4xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-4">Parent Involvement</h2>
-    <p class="text-lg">
+    <h2 class="text-4xl font-bold mb-4 fade-in">Parent Involvement</h2>
+    <p class="text-lg fade-in">
       We believe that parents are integral to a child's learning journey. Violets' Orchids Preschool encourages active parent participation through regular communication, workshops, and events, ensuring a collaborative approach to each child's development.
     </p>
   </div>
   
-    <p class="text-center text-lg mb-8 text-[#5A003A]">Our parents are our true ambassadors.</p>
+    <p class="text-center text-lg mb-8 text-[#5A003A] fade-in">Our parents are our true ambassadors.</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
       
       <!-- Testimonial 1 -->
-      <div class="bg-white rounded-2xl shadow-lg p-6">
-        <p class="text-lg italic mb-4 text-[#400027]">“A wonderful environment for my child to grow. The teachers are incredibly caring and supportive.”</p>
+      <div class="bg-white rounded-2xl shadow-lg p-6 testimonial-card fade-in">
+        <p class="text-lg italic mb-4 text-[#400027]">"A wonderful environment for my child to grow. The teachers are incredibly caring and supportive."</p>
         <p class="text-sm font-semibold text-right text-[#5A003A]">— Anjali Mehta, mother of Aarav</p>
       </div>
   
       <!-- Testimonial 2 -->
-      <div class="bg-white rounded-2xl shadow-lg p-6">
-        <p class="text-lg italic mb-4 text-[#400027]">“Violets' Orchids blends learning and play perfectly. My son loves going to school every day!”</p>
+      <div class="bg-white rounded-2xl shadow-lg p-6 testimonial-card fade-in" style="animation-delay: 0.1s">
+        <p class="text-lg italic mb-4 text-[#400027]">"Violets' Orchids blends learning and play perfectly. My son loves going to school every day!"</p>
         <p class="text-sm font-semibold text-right text-[#5A003A]">— Rahul Khanna, father of Vedika</p>
       </div>
   
       <!-- Testimonial 3 -->
-      <div class="bg-white rounded-2xl shadow-lg p-6">
-        <p class="text-lg italic mb-4 text-[#400027]">“My daughter has become more confident and expressive thanks to the nurturing environment here.”</p>
+      <div class="bg-white rounded-2xl shadow-lg p-6 testimonial-card fade-in" style="animation-delay: 0.2s">
+        <p class="text-lg italic mb-4 text-[#400027]">"My daughter has become more confident and expressive thanks to the nurturing environment here."</p>
         <p class="text-sm font-semibold text-right text-[#5A003A]">— Sneha Roy, mother of Isha</p>
       </div>
   
@@ -581,15 +883,14 @@
   </section>
     
   
-
   <section id="contact" class="py-20 bg-[#FDF6F8] text-[#400027]">
     <div class="max-w-6xl mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-4">Contact Us</h2>
-      <p class="text-lg mb-12">We’d love to hear from you! Reach out for inquiries, admissions, or a visit.</p>
+      <h2 class="text-4xl font-bold mb-4 fade-in">Contact Us</h2>
+      <p class="text-lg mb-12 fade-in">We'd love to hear from you! Reach out for inquiries, admissions, or a visit.</p>
   
-      <div class="grid md:grid-cols-1 gap-8 ">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
         <!-- Contact Details Card -->
-        <div class="bg-white rounded-2xl shadow-lg p-6">
+        <div class="bg-white rounded-2xl shadow-lg p-6 fade-in">
           <h3 class="text-2xl font-semibold mb-4">Visit Us</h3>
           <p class="mb-3">Violet Orchids Preschool</p>
           <p class="mb-3">H.No 21-55, LIG -10, HUDA Layout</p>
@@ -597,24 +898,46 @@
           <p class="mb-3">Hyderabad, Telangana 501218</p>
           <p class="mb-3">📞 <strong>+91-9347264432</strong></p>
           <p>📧 <strong>info@violetorchids.com</strong></p>
-
+        </div>
+  
+        <!-- Google Maps Location -->
+        <div class="fade-in" style="animation-delay: 0.2s">
+          <a href="https://maps.app.goo.gl/1cq3AZLXHP2TZuMB8" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="block overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+            <img src="C:\Users\esthe\OneDrive\Desktop\Files\Skill\STRATEGYM_INTERNSHIP\VO_W\violet-orchids\06.jpg"
+                 alt="Violet Orchids Preschool Location" 
+                 class="w-full h-auto">
+            <div class="bg-white p-4 text-center">
+              <p class="text-[#400027] font-medium">Click to open in Google Maps</p>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
   
-
-  <footer>
-   
-    <div class="footer-menu">
-      <a href="#hero">Home</a>
-      <a href="#why-choose">What sets us apart?</a>
-      <a href="#programs">What do we offer?</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#purpose">Our Mission</a>
-      <a href="#reviews">Testimonials</a>
-      <a href="#contact">Contact Us</a>
+  </main><footer class="py-8 bg-[rgba(255,231,244,0.15)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col items-center">
+        <!-- Vertical Footer Menu -->
+        <div class="footer-menu flex flex-col items-center gap-4 mb-6">
+          <a href="#hero" class="hover:text-[#5a003a] hover:scale-110 transition-all duration-300">Home</a>
+          <a href="#why-choose" class="hover:text-[#5a003a] hover:scale-110 transition-all duration-300">What sets us apart?</a>
+          <a href="#programs" class="hover:text-[#5a003a] hover:scale-110 transition-all duration-300">What do we offer?</a>
+          <a href="#gallery" class="hover:text-[#5a003a] hover:scale-110 transition-all duration-300">Gallery</a>
+          <a href="#purpose" class="hover:text-[#5a003a] hover:scale-110 transition-all duration-300">Our Mission</a>
+          <a href="#reviews" class="hover:text-[#5a003a] hover:scale-110 transition-all duration-300">Testimonials</a>
+          <a href="#contact" class="hover:text-[#5a003a] hover:scale-110 transition-all duration-300">Contact Us</a>
+        </div>
+        
+        <!-- Copyright -->
+        <p class="text-center mt-4 text-[#400027] animate__animated animate__fadeIn">
+          &copy; 2025 Violets' Orchids Preschool. All rights reserved.
+        </p>
+      </div>
     </div>
-    <p class="text-center mt-4">&copy; 2025 Violets' Orchids Preschool. All rights reserved.</p>
-
   </footer>
 
 </body>
